@@ -15,8 +15,10 @@ extern "C" {
 /*------------------------------------------------------------------------------*/
 /*					  		   Preprocessor Constants						    */
 /*------------------------------------------------------------------------------*/
-#define SUCCESS     0
-#define FAILURE     -1
+#define SUCCESS                 0
+#define FAILURE                 -1
+
+#define param_check(param)	    if ( !(param) ) return FAILURE
 
 /*-----------------------------------------------------------------------------*/
 /*							    Function prototypes					     	   */
@@ -26,7 +28,6 @@ extern "C" {
 int hal__init(); //Initialize HAL. Returns 0 on success, -1 on failure.
 
 /* TIMER_HELPER_FUNCTIONS */
-
 int hal__setDutyCycle(uint8_t channelNum, uint16_t dutyCycle_tenth); //Set Duty Cycle, in tenths of percent. For Example, Passing (1, 50) will set Timer 1 Channel 1 to 5.0%. Returns 0 on success, -1 on failure.
 //Note: channelNum should be 0-indexed. (0,1,2,3,4,5,6,7,8) - not related to the real physical pins or timer peripherals.
 //Note: Setting this value should not directly replace the capture/compare value - it should save this value and replace the capture/compare value on the next timer overflow.
