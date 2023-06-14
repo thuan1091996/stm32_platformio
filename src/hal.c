@@ -4,6 +4,7 @@
 /*------------------------------------------------------------------------------*/
 #include "hal.h"
 
+extern int __InitGPIO();
 extern int __InitUART();
 
 /*------------------------------------------------------------------------------*/
@@ -21,13 +22,6 @@ int __InitPWM()
 
 //Initialize I2C. Returns 0 on success, -1 on failure.
 int __InitI2C()
-{
-    int ret = SUCCESS;
-    return ret;
-}
-
-//Initialize GPIO. Returns 0 on success, -1 on failure.
-int __InitGPIO()
 {
     int ret = SUCCESS;
     return ret;
@@ -76,6 +70,7 @@ int hal__init()
     /* Configure the system clock */
     ret |= __InitClocks();
 
+    ret |= __InitGPIO();
     ret |= __InitUART();
 
     return ret;
@@ -99,24 +94,6 @@ int __hal__setTimerFrequency(uint8_t timerNum, uint32_t freq)
 }
 
 int hal__setDutyCycle(uint8_t channelNum, uint16_t dutyCycle_tenth)
-{
-    int ret = SUCCESS;
-    return ret;
-}
-/***************************** GPIO_HELPER_FUNCTIONS ****************************/
-int hal__setHigh(uint8_t pinNum)
-{
-    int ret = SUCCESS;
-    return ret;
-}
-
-int hal__setLow(uint8_t pinNum)
-{
-    int ret = SUCCESS;
-    return ret;
-}
-
-int hal__setState(uint8_t pinNum, uint8_t state)
 {
     int ret = SUCCESS;
     return ret;

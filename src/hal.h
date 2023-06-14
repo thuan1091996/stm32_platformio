@@ -35,6 +35,7 @@ int hal__setDutyCycle(uint8_t channelNum, uint16_t dutyCycle_tenth); //Set Duty 
 /* GPIO_HELPER_FUNCTIONS */
 int hal__setHigh(uint8_t pinNum);
 int hal__setLow(uint8_t pinNum);
+int hal__read(uint8_t pinNum);
 int hal__setState(uint8_t pinNum, uint8_t state); //(0,0) sets pin 0 as input, (0,1) sets pin 0 as output, (0,2) sets pin as high impedance. Returns 0 on success, -1 on failure.
 //Note: link pinNum to the datasheet labels in a logical way PA[0:15], PB[0:15], PC[0:15], etc.
 
