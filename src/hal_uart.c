@@ -122,15 +122,15 @@ int __initUART2()
 //Initialize UART to 115200 8N1. Returns 0 on success, -1 on failure.
 int __InitUART()
 {
-   int ret = SUCCESS;
+    int ret = SUCCESS;
 
-   ret |= __initUART1();
-   ret |= __initUART2();
+    ret |= __initUART1();
+    ret |= __initUART2();
 
-   ret |= ( HAL_UART_Receive_IT(&__uart_handle[0], &__uart_rx_buffer[0].rx_data, 1) == HAL_OK ) ? SUCCESS : FAILURE;
-   ret |= ( HAL_UART_Receive_IT(&__uart_handle[1], &__uart_rx_buffer[1].rx_data, 1) == HAL_OK ) ? SUCCESS : FAILURE;
+    ret |= ( HAL_UART_Receive_IT(&__uart_handle[0], &__uart_rx_buffer[0].rx_data, 1) == HAL_OK ) ? SUCCESS : FAILURE;
+    ret |= ( HAL_UART_Receive_IT(&__uart_handle[1], &__uart_rx_buffer[1].rx_data, 1) == HAL_OK ) ? SUCCESS : FAILURE;
 
-   return ret;
+    return ret;
 }
 
 void __hal_store_rx(tBuffer *buffer)

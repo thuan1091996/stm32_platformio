@@ -5,6 +5,7 @@
 #include "hal.h"
 
 extern int __InitGPIO();
+extern int __InitPWM();
 extern int __InitUART();
 
 /*------------------------------------------------------------------------------*/
@@ -12,14 +13,6 @@ extern int __InitUART();
 /*------------------------------------------------------------------------------*/
 
 /***************************** INIT_HELPER_FUNCTIONS ****************************/
-//Note: These internalFunctions are used to initialize the various peripherals. They are not intended to be called directly. (The peripherals are abstracted away by hal__init()
-//Initialize PWM. Returns 0 on success, -1 on failure.
-int __InitPWM()
-{
-    int ret = SUCCESS;
-    return ret;
-}
-
 //Initialize I2C. Returns 0 on success, -1 on failure.
 int __InitI2C()
 {
@@ -71,31 +64,9 @@ int hal__init()
     ret |= __InitClocks();
 
     ret |= __InitGPIO();
+    ret |= __InitPWM();
     ret |= __InitUART();
 
-    return ret;
-}
-
-/**************************** TIMER_HELPER_FUNCTIONS ****************************/
-
-//Note: These internal functions are not intended to be called directly. (The timer peripherals are abstracted away by hal__setDutyCycle();
-//Set Timer Duty Cycle, in tenths of percent. For Example, Passing (1, 1, 50) will set Timer 1 Channel 1 to 5.0%. Returns 0 on success, -1 on failure.
-int __hal__setTimerDutyCycle(uint8_t timerNum, uint8_t channelNum, uint16_t dutyCycle_tenth)
-{
-    int ret = SUCCESS;
-    return ret;
-}
-
-//Set Timer Frequency, in Hz. For Example, Passing (1, 1000) will set Timer 1 to 1kHz. Returns 0 on success, -1 on failure.
-int __hal__setTimerFrequency(uint8_t timerNum, uint32_t freq)
-{
-    int ret = SUCCESS;
-    return ret;
-}
-
-int hal__setDutyCycle(uint8_t channelNum, uint16_t dutyCycle_tenth)
-{
-    int ret = SUCCESS;
     return ret;
 }
 
