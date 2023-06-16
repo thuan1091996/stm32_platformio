@@ -7,19 +7,13 @@
 extern int __InitGPIO();
 extern int __InitPWM();
 extern int __InitUART();
+extern int __InitI2C();
 
 /*------------------------------------------------------------------------------*/
 /*					  	   Function prototypes Implement					    */
 /*------------------------------------------------------------------------------*/
 
 /***************************** INIT_HELPER_FUNCTIONS ****************************/
-//Initialize I2C. Returns 0 on success, -1 on failure.
-int __InitI2C()
-{
-    int ret = SUCCESS;
-    return ret;
-}
-
 //Initialize Clocks. Returns 0 on success, -1 on failure. (Note: If this happens automatically, this function is not needed.)
 int __InitClocks()
 {
@@ -66,37 +60,8 @@ int hal__init()
     ret |= __InitGPIO();
     ret |= __InitPWM();
     ret |= __InitUART();
+    ret |= __InitI2C();
 
-    return ret;
-}
-
-/***************************** I2C_HELPER_FUNCTIONS *****************************/
-bool hal__I2CEXISTS(uint8_t i2c_num, uint8_t ADDR)
-{
-    return true;
-}
-
-int hal__I2CREAD_uint8(uint8_t i2c_num, uint8_t ADDR, uint8_t REG, uint8_t *data)
-{
-    int ret = SUCCESS;
-    return ret;
-}
-
-int hal__I2CREAD(uint8_t i2c_num, uint8_t ADDR, uint8_t REG, uint8_t *data, uint16_t len)
-{
-    int ret = SUCCESS;
-    return ret;
-}
-
-int hal__I2CWRITE_uint8(uint8_t i2c_num, uint8_t ADDR, uint8_t REG, uint8_t data)
-{
-    int ret = SUCCESS;
-    return ret;
-}
-
-int hal__I2CWRITE(uint8_t i2c_num, uint8_t ADDR, uint8_t REG, uint8_t *data, uint16_t len)
-{
-    int ret = SUCCESS;
     return ret;
 }
 
