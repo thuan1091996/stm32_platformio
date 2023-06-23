@@ -102,7 +102,7 @@ int hal__setState(uint8_t pinNum, uint8_t state)
     if (state == 0) //  Set pin as input
     {
         GPIO_Init.Mode = GPIO_MODE_INPUT;
-        GPIO_Init.Pull = GPIO_PULLDOWN;
+        GPIO_Init.Pull = GPIO_NOPULL;
     }
     else if (state == 1) // Set pin as output
     {
@@ -111,7 +111,7 @@ int hal__setState(uint8_t pinNum, uint8_t state)
     }
     else if (state == 2) // Set pin as high impedance
     {
-        GPIO_Init.Mode = GPIO_MODE_INPUT;
+        GPIO_Init.Mode = GPIO_MODE_ANALOG;
         GPIO_Init.Pull = GPIO_NOPULL;
     }
 

@@ -19,6 +19,8 @@ extern "C" {
 #define FAILURE                 -1
 
 #define param_check(param)	    if ( !(param) ) return FAILURE
+#define error_check(con, error) if ( con ) return error
+
 
 /*-----------------------------------------------------------------------------*/
 /*							    Function prototypes					     	   */

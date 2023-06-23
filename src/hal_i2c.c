@@ -115,10 +115,13 @@ int __InitI2C()
 /*------------------------------------------------------------------------------*/
 bool hal__I2CEXISTS(uint8_t i2c_num, uint8_t ADDR)
 {
-    param_check( (1 <= i2c_num) && (i2c_num <= 2) );
+    bool ret = false;
 
-    bool ret = ( HAL_I2C_IsDeviceReady(&__i2c_handle[ i2c_num - 1], ADDR, 1, I2C_POLL_TIMEOUT) == HAL_OK );
-    
+    if ( (1 <= i2c_num) && (i2c_num <= 2) )
+    {
+        ret = ( HAL_I2C_IsDeviceReady(&__i2c_handle[ i2c_num - 1], ADDR, 1, I2C_POLL_TIMEOUT) == HAL_OK );
+    }
+
     return ret;
 }
 
