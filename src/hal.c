@@ -8,7 +8,7 @@ extern int __InitGPIO();
 extern int __InitPWM();
 extern int __InitUART();
 extern int __InitI2C();
-
+extern int __InitADC();
 /*------------------------------------------------------------------------------*/
 /*					  	   Function prototypes Implement					    */
 /*------------------------------------------------------------------------------*/
@@ -61,6 +61,7 @@ int hal__init()
     ret |= __InitPWM();
     ret |= __InitUART();
     ret |= __InitI2C();
+    ret |= __InitADC();
 
     return ret;
 }
