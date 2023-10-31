@@ -40,7 +40,7 @@ const tADCDef ADC_PIN[] = {
         { .Channel = ADC_CHANNEL_9, .Gpio = {.Port = GPIOB, .Pin = GPIO_PIN_1}  /*9*/},
 };
 
-extern ADC_HandleTypeDef hadc1;
+ADC_HandleTypeDef hadc1;
 /*------------------------------------------------------------------------------*/
 /*					  	  Function Private Implement		    			    */
 /*------------------------------------------------------------------------------*/
@@ -141,24 +141,29 @@ static int __initADC1()
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
     /*ADC clock configuration*/
-#if 0
-    RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
-    PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_ADC;
-    PeriphClkInitStruct.AdcClockSelection = RCC_ADCPCLK2_DIV2;
-#endif /* End of 0 */
     __HAL_RCC_ADC_CLK_ENABLE();
 
     //  ADC configuration
     hadc1.Instance = ADC1;
     hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV2;
     hadc1.Init.Resolution = ADC_DEFAULT_RESOLUTION;
-    hadc1.Init.ScanConvMode = DISABLE;
+	hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+    hadc1.Init.Overrun = ADC_OVR_DATA_PRESERVED;
+    hadc1.Init.SamplingTimeCommon1 = ADC_SAMPLETIME_39CYCLES_5;
+    hadc1.Init.SamplingTimeCommon2 = ADC_SAMPLETIME_39CYCLES_5;
+    hadc1.Init.TriggerFrequencyMode = ADC_TRIGGER_FREQ_LOW;
+    hadc1.Init.NbrOfConversion = 1;
+    hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+    hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+    hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
+    hadc1.Init.ScanConvMode = ADC_SCAN_DISABLE;
     hadc1.Init.ContinuousConvMode = DISABLE;
     hadc1.Init.DiscontinuousConvMode = DISABLE;
     hadc1.Init.DMAContinuousRequests = DISABLE;
-    hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
-    hadc1.Init.NbrOfConversion = ADC_REGULAR_RANK_1;
-    hadc1.Init.EOCSelection = ADC_EOC_SEQ_CONV;
+	hadc1.Init.LowPowerAutoWait = DISABLE;
+	hadc1.Init.LowPowerAutoPowerOff = DISABLE;
+    hadc1.Init.OversamplingMode = DISABLE;
+
     if (HAL_ADC_Init(&hadc1) != HAL_OK)
     {
         return FAILURE;
