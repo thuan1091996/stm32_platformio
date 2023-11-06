@@ -62,6 +62,7 @@ int hal__init()
     ret |= __InitUART();
     ret |= __InitI2C();
     ret |= __InitADC();
+    ret |= __InitSPI();
 
     return ret;
 }
