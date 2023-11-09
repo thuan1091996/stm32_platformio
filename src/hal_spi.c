@@ -238,7 +238,7 @@ int hal__SPIWRITE_READ(uint8_t spi_num, uint8_t* data_out, uint8_t* data_in, uin
 	param_check( (1 <= spi_num) && (spi_num <= 2) );
 	param_check( data_out != NULL );
 	param_check( data_in != NULL );
-	HAL_StatusTypeDef status = HAL_SPI_TransmitReceive(&__spi_handle[spi_num - 1], data_out, data_in, len, SPI_DEFAULT_TIMEOUT);
+	HAL_StatusTypeDef status = HAL_SPI_TransmitReceive(&__spi_handle[spi_num - 1], data_in, data_out, len, SPI_DEFAULT_TIMEOUT);
 	if(status == HAL_OK)
 	{
 		return len;

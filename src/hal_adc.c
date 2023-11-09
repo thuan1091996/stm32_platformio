@@ -148,7 +148,7 @@ static int __initADC1()
     hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV2;
     hadc1.Init.Resolution = ADC_DEFAULT_RESOLUTION;
 	hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
-    hadc1.Init.Overrun = ADC_OVR_DATA_PRESERVED;
+    hadc1.Init.Overrun = ADC_OVR_DATA_OVERWRITTEN;
     hadc1.Init.SamplingTimeCommon1 = ADC_SAMPLETIME_39CYCLES_5;
     hadc1.Init.SamplingTimeCommon2 = ADC_SAMPLETIME_39CYCLES_5;
     hadc1.Init.TriggerFrequencyMode = ADC_TRIGGER_FREQ_LOW;
@@ -193,7 +193,7 @@ int hal__ADCRead(uint8_t pin)
     param_check((pin >= 0) && (pin < ADC_PIN_NUM));
 
     // Check if ADC is initialized
-    if(hadc1.State & HAL_ADC_STATE_READY)
+    if(hadc1.State & HAL_ADC_STATE_READY == 0)
     {
     	if ( SUCCESS != __initADC1())
     		return FAILURE;
