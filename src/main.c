@@ -3,8 +3,8 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#define TEST_ADC_API 	(0)
-#define TEST_SPI_API 	(1)
+#define TEST_ADC_API 	(1)
+#define TEST_SPI_API 	(0)
 
 #if (TEST_SPI_API == 1)
 uint8_t flash_info[20] = {0};
@@ -88,6 +88,17 @@ int main(void)
 			printf("MX25Series_init fail\r\n");
 #endif /* (TEST_SPI_API != 0) */
 
+#if (TEST_ADC_API != 0)
+		uint32_t adc_voltage[10]={0};
+		printf("[");
+		for(uint8_t idx=0; idx< 10; idx++)
+		{
+			adc_voltage[idx] = hal__ADCReadMV(idx);
+			printf("%04d    ", adc_voltage[idx]);
+		}
+		printf("] \r\n");
+		HAL_Delay(200);
+#endif /* End of (TEST_ADC_API != 0) */
 
     }
 }
