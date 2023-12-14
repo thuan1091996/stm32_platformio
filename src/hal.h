@@ -69,6 +69,19 @@ int hal__I2CREAD(uint8_t i2c_num, uint8_t ADDR, uint8_t REG, uint8_t *data, uint
 int hal__I2CWRITE_uint8(uint8_t i2c_num, uint8_t ADDR, uint8_t REG, uint8_t data); //Write data to I2C device at ADDR, register REG. Returns 0 on success, -1 on failure.
 int hal__I2CWRITE(uint8_t i2c_num, uint8_t ADDR, uint8_t REG, uint8_t *data, uint16_t len); //Write data to I2C device at ADDR, register REG. Returns number of bytes written on success, -1 on failure.
 
+
+/* SPI_HELPER_FUNCTIONS */
+int __InitSPI();
+int hal__SPIWRITE(uint8_t spi_num, uint8_t *data, uint16_t len);
+int hal__SPIREAD(uint8_t spi_num, uint8_t *data, uint16_t len);
+int hal__SPIWRITE_READ(uint8_t spi_num, uint8_t *data_out, uint8_t *data_in, uint16_t len);
+
+/* ADC_HELPER_FUNCTIONS */
+int __InitADC();
+int hal__ADCRead(uint8_t pin);
+int hal__ADCReadMV(uint8_t pin);
+
+
 #ifdef __cplusplus
 }
 #endif

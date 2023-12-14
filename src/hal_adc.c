@@ -22,7 +22,7 @@
 typedef struct
 {
     tGpioDef     Gpio;
-    uint8_t      Channel;
+    uint32_t    Channel;
 } tADCDef;
 /*------------------------------------------------------------------------------*/
 /*					  		   Variables Declare			    			    */
@@ -44,7 +44,7 @@ ADC_HandleTypeDef hadc1;
 /*------------------------------------------------------------------------------*/
 /*					  	  Function Private Implement		    			    */
 /*------------------------------------------------------------------------------*/
-static int __ADC1_config_channel(uint8_t channel)
+static int __ADC1_config_channel(uint32_t channel)
 {
     // Configure the channel
     ADC_ChannelConfTypeDef adc_channel_config = {0};
@@ -58,7 +58,7 @@ static int __ADC1_config_channel(uint8_t channel)
     return SUCCESS;
 }
 
-static int __ADC1_read(uint8_t channel, uint16_t *adc_raw)
+static int __ADC1_read(uint32_t channel, uint16_t *adc_raw)
 {
     // Configure the channel
     if ( SUCCESS != __ADC1_config_channel(channel))
@@ -80,7 +80,7 @@ static int __ADC1_read(uint8_t channel, uint16_t *adc_raw)
             break;
         }
         *adc_raw = HAL_ADC_GetValue(&hadc1);
-            ret_val = SUCCESS;
+		ret_val = SUCCESS;
     } while (0);
     HAL_ADC_Stop(&hadc1);
     return ret_val;
@@ -90,6 +90,12 @@ static int __ADC1_read_Vref(uint16_t* vref_raw)
 {
     // Configure the channel
     if ( SUCCESS != __ADC1_config_channel(ADC_CHANNEL_VREFINT))
+    {
+        return FAILURE;
+    }
+
+    // Calibration
+    if (HAL_ADCEx_Calibration_Start(&hadc1) != HAL_OK)
     {
         return FAILURE;
     }
@@ -193,7 +199,7 @@ int hal__ADCRead(uint8_t pin)
     param_check((pin >= 0) && (pin < ADC_PIN_NUM));
 
     // Check if ADC is initialized
-    if(hadc1.State & HAL_ADC_STATE_READY == 0)
+    if(hadc1.State != HAL_ADC_STATE_READY)
     {
     	if ( SUCCESS != __initADC1())
     		return FAILURE;
@@ -215,7 +221,6 @@ int hal__ADCRead(uint8_t pin)
 
 int hal__ADCReadMV(uint8_t pin)
 {
-    int raw_adc = hal__ADCRead(pin);
     // Read and calculate Vref voltage
     uint16_t vref_raw, vref_volt;
     if (__ADC1_read_Vref(&vref_raw) != SUCCESS)
@@ -223,6 +228,13 @@ int hal__ADCReadMV(uint8_t pin)
         return FAILURE;
     }
     vref_volt = __LL_ADC_CALC_VREFANALOG_VOLTAGE(vref_raw, ADC_DEFAULT_RESOLUTION);
+
+    // Read raw ADC value
+    int raw_adc = hal__ADCRead(pin);
+    if(raw_adc == FAILURE)
+    {
+    	return FAILURE;
+    }
     // Calculate the voltage of the pin
     int adc_volt = __LL_ADC_CALC_DATA_TO_VOLTAGE(vref_volt, raw_adc, ADC_DEFAULT_RESOLUTION);
     return adc_volt;
