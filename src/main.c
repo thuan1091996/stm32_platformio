@@ -24,6 +24,33 @@ uint8_t buff_write[10] = {1, 2, 3};
 #define FLASH_WP_PIN_NUMBER 12
 #endif /* End of (TEST_SPI_API == 1) */
 
+extern UART_HandleTypeDef __uart_handle[2];
+#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+/**
+  * @brief  Retargets the C library printf function to the USART.
+  * @param  None
+  * @retval None
+  */
+PUTCHAR_PROTOTYPE
+{
+  /* Place your implementation of fputc here */
+  /* e.g. write a character to the USART1 and Loop until the end of transmission */
+  HAL_UART_Transmit(&__uart_handle[0], (uint8_t *)&ch, 1, 0xFFFF);
+
+  return ch;
+}
+
+#include <errno.h>
+#include <sys/unistd.h> // STDOUT_FILENO, STDERR_FILENO
+int _write(int file, char *data, int len) {
+  if ((file != STDOUT_FILENO) && (file != STDERR_FILENO)) {
+      errno = EBADF;
+      return -1;
+  }
+  HAL_UART_Transmit(&__uart_handle[0], (uint8_t *)data, (uint16_t) len, 0xFFFF); 
+  return len;
+}
+
 int main(void)
 {
     hal__init();
