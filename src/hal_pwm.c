@@ -146,7 +146,7 @@ int __hal__setTimerDutyCycle(uint8_t timerNum, uint8_t channelNum, uint16_t duty
 	param_check( (1 <= channelNum) && (channelNum <= 8) );
 	param_check( dutyCycle_tenth <= 1000 );
 
-	uint16_t ccr_value = ( (__HAL_TIM_GET_AUTORELOAD(&__pwm_timer[timerNum - 1]) + 1) * (dutyCycle_tenth / 10.0) / 100.0 ) - 1;
+	uint16_t ccr_value = ( (__HAL_TIM_GET_AUTORELOAD(&__pwm_timer[timerNum - 1]) + 1) * (dutyCycle_tenth / 10.0) / 100.0 );
 	__pwm_duty[channelNum - 1] = ccr_value;
 
     return SUCCESS;
