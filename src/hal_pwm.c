@@ -251,10 +251,17 @@ void HAL_TIM_PWM_MspDeInit(TIM_HandleTypeDef *htim)
 {
     if(htim->Instance == TIM1)
     {
+        // Disable pwm pins 
+        HAL_GPIO_DeInit(GPIOA, GPIO_PIN_8);
+        HAL_GPIO_DeInit(GPIOB, GPIO_PIN_6);
+        HAL_GPIO_DeInit(GPIOC, GPIO_PIN_9 | GPIO_PIN_11);
         __HAL_RCC_TIM1_CLK_DISABLE();
     }
     else if(htim->Instance == TIM3)
     {
+        // Disable pwm pins
+        HAL_GPIO_DeInit(GPIOA, GPIO_PIN_6 | GPIO_PIN_7);
+        HAL_GPIO_DeInit(GPIOB, GPIO_PIN_0 | GPIO_PIN_1);
         __HAL_RCC_TIM3_CLK_DISABLE();
     }
 }

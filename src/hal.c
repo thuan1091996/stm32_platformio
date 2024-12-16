@@ -55,15 +55,6 @@ int __InitClocks()
 
 void hal_lowpowermode_enter(void)
 {
-
-    // /* Disable peripheral clocks */
-     GPIO_InitTypeDef analog_pins;
-     analog_pins.Pin = GPIO_PIN_All;
-     analog_pins.Mode = GPIO_MODE_ANALOG;
-     analog_pins.Pull = GPIO_NOPULL;
-     analog_pins.Speed = GPIO_SPEED_FREQ_LOW;
-     HAL_GPIO_Init(GPIOB, &analog_pins);
-
     /* Deinitialize all peripherals */
     HAL_ADC_DeInit(&hadc1);
     
@@ -75,13 +66,13 @@ void hal_lowpowermode_enter(void)
     }
 
     /* Set STOP 0 mode when CPU enters deepsleep */
-    LL_PWR_SetPowerMode(LL_PWR_MODE_STOP0);
+     LL_PWR_SetPowerMode(LL_PWR_MODE_STOP0);
 
-    /* Set SLEEPDEEP bit of Cortex System Control Register */
-    LL_LPM_EnableDeepSleep();
+     /* Set SLEEPDEEP bit of Cortex System Control Register */
+     LL_LPM_EnableDeepSleep();
 
-    /* Request Wait For Interrupt */
-    __WFI();
+     /* Request Wait For Interrupt */
+     __WFI();
 
     /* Reinitialize all peripherals */
     

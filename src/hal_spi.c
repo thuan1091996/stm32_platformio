@@ -227,15 +227,13 @@ void HAL_SPI_MspDeInit(SPI_HandleTypeDef *hspi)
 {
     if (hspi->Instance == SPI1)
     {
-        __HAL_RCC_SPI1_FORCE_RESET();
-        __HAL_RCC_SPI1_RELEASE_RESET();
+        __HAL_RCC_SPI1_CLK_DISABLE();
         HAL_GPIO_DeInit(GPIOA, GPIO_PIN_10);
         HAL_GPIO_DeInit(GPIOB, GPIO_PIN_3 | GPIO_PIN_4 | GPIO_PIN_5);
     }
     else if (hspi->Instance == SPI2)
     {
-        __HAL_RCC_SPI2_FORCE_RESET();
-        __HAL_RCC_SPI2_RELEASE_RESET();
+        __HAL_RCC_SPI2_CLK_DISABLE();
         HAL_GPIO_DeInit(GPIOA, GPIO_PIN_15);
         HAL_GPIO_DeInit(GPIOB, GPIO_PIN_13);
         HAL_GPIO_DeInit(GPIOC, GPIO_PIN_2 | GPIO_PIN_3);
