@@ -11,6 +11,10 @@ extern "C" {
 #include "stm32g0xx_hal.h"
 
 #include "stdbool.h"
+#include "stm32g0xx_ll_pwr.h"
+#include "stm32g0xx_ll_cortex.h"
+#include "stm32g0xx_ll_gpio.h"
+#include "stm32g0xx_ll_bus.h"
 
 /*------------------------------------------------------------------------------*/
 /*					  		   Typedef						                    */
@@ -81,7 +85,8 @@ int __InitADC();
 int hal__ADCRead(uint8_t pin);
 int hal__ADCReadMV(uint8_t pin);
 
-
+/* Low power function */
+void hal_lowpowermode_enter(void);
 #ifdef __cplusplus
 }
 #endif

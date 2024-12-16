@@ -247,3 +247,14 @@ void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
 	}
 }
 
+void HAL_TIM_PWM_MspDeInit(TIM_HandleTypeDef *htim)
+{
+    if(htim->Instance == TIM1)
+    {
+        __HAL_RCC_TIM1_CLK_DISABLE();
+    }
+    else if(htim->Instance == TIM3)
+    {
+        __HAL_RCC_TIM3_CLK_DISABLE();
+    }
+}

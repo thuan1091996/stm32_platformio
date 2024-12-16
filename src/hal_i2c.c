@@ -164,3 +164,16 @@ int hal__I2CWRITE(uint8_t i2c_num, uint8_t ADDR, uint8_t REG, uint8_t *data, uin
     return ret;
 }
 
+void HAL_I2C_MspDeInit(I2C_HandleTypeDef* hi2c)
+{
+    if(hi2c->Instance==I2C1)
+    {
+        __HAL_RCC_I2C1_CLK_DISABLE();
+        HAL_GPIO_DeInit(GPIOA, GPIO_PIN_9|GPIO_PIN_10);
+    }
+    else if(hi2c->Instance==I2C2)
+    {
+        __HAL_RCC_I2C2_CLK_DISABLE();
+        HAL_GPIO_DeInit(GPIOB, GPIO_PIN_10|GPIO_PIN_11);
+    }
+}

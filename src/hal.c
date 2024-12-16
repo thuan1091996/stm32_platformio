@@ -9,6 +9,12 @@ extern int __InitPWM();
 extern int __InitUART();
 extern int __InitI2C();
 extern int __InitADC();
+
+extern ADC_HandleTypeDef hadc1;
+extern I2C_HandleTypeDef __i2c_handle[2];
+extern TIM_HandleTypeDef __pwm_timer[2];
+extern SPI_HandleTypeDef __spi_handle[2];
+extern UART_HandleTypeDef __uart_handle[2];
 /*------------------------------------------------------------------------------*/
 /*					  	   Function prototypes Implement					    */
 /*------------------------------------------------------------------------------*/
@@ -45,6 +51,41 @@ int __InitClocks()
     ret |= (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) == HAL_OK) ? SUCCESS : FAILURE;
 
     return ret;
+}
+
+void hal_lowpowermode_enter(void)
+{
+
+    // /* Disable peripheral clocks */
+     GPIO_InitTypeDef analog_pins;
+     analog_pins.Pin = GPIO_PIN_All;
+     analog_pins.Mode = GPIO_MODE_ANALOG;
+     analog_pins.Pull = GPIO_NOPULL;
+     analog_pins.Speed = GPIO_SPEED_FREQ_LOW;
+     HAL_GPIO_Init(GPIOB, &analog_pins);
+
+    /* Deinitialize all peripherals */
+    HAL_ADC_DeInit(&hadc1);
+    
+    for(int i = 0; i < 2; i++) {
+        HAL_I2C_DeInit(&__i2c_handle[i]);
+        HAL_TIM_PWM_DeInit(&__pwm_timer[i]);
+        HAL_SPI_DeInit(&__spi_handle[i]);
+        HAL_UART_DeInit(&__uart_handle[i]);
+    }
+
+    /* Set STOP 0 mode when CPU enters deepsleep */
+    LL_PWR_SetPowerMode(LL_PWR_MODE_STOP0);
+
+    /* Set SLEEPDEEP bit of Cortex System Control Register */
+    LL_LPM_EnableDeepSleep();
+
+    /* Request Wait For Interrupt */
+    __WFI();
+
+    /* Reinitialize all peripherals */
+    
+    hal__init();
 }
 
 int hal__init()
